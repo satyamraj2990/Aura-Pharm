@@ -5,19 +5,17 @@ import { useNavigate } from 'react-router-dom'
 
 import { Sidebar } from '../components/Sidebar'
 import { CardSkeleton } from '../components/ui/Skeleton'
+import { useAuth } from '../context/AuthContext'
 import { type Room, getRooms } from '../services/rooms'
-
-type RoomStartState = {
-  roomId: string
-  roomTitle: string
-  startTime: string
-}
+import { createRoomSession } from '../services/roomSessions'
 
 export function FocusRoomsPage() {
   const navigate = useNavigate()
+  const { user } = useAuth()
 
   const [rooms, setRooms] = useState<Room[]>([])
   const [loading, setLoading] = useState(true)
+  const [joiningRoomId, setJoiningRoomId] = useState<string | null>(null)
   const [error, setError] = useState('')
 
   useEffect(() => {
@@ -47,14 +45,32 @@ export function FocusRoomsPage() {
     }
   }, [])
 
-  const handleJoinRoom = (room: Room) => {
-    const state: RoomStartState = {
-      roomId: room.id,
-      roomTitle: room.title,
-      startTime: new Date().toISOString(),
-    }
+  const handleJoinRoom = async (room: Room) => {
+    if (!user) return
 
-    navigate(`/room/${room.id}`, { state })
+    try {
+      setJoiningRoomId(room.id)
+      setError('')
+
+      // Create a new room session
+      const sessionId = await createRoomSession({
+        roomId: room.id,
+        creatorId: user.uid,
+        duration: 25, // Default 25 minutes - could be configurable
+      })
+
+      const state = {
+        roomId: room.id,
+        roomTitle: room.title,
+        sessionId,
+      }
+
+      navigate(`/room/${room.id}`, { state })
+    } catch (err) {
+      setError(err instanceof Error ? err.message : 'Failed to join room.')
+    } finally {
+      setJoiningRoomId(null)
+    }
   }
 
   return (
@@ -109,9 +125,10 @@ export function FocusRoomsPage() {
                 <button
                   type="button"
                   onClick={() => handleJoinRoom(room)}
-                  className="mt-5 w-full rounded-xl border border-slate-700/50 bg-slate-800/50 px-4 py-2.5 text-sm font-medium text-slate-100 backdrop-blur-sm transition-all duration-300 hover:border-white/40 hover:bg-white/20 hover:shadow-lg"
+                  className="mt-5 w-full rounded-xl border border-slate-700/50 bg-slate-800/50 px-4 py-2.5 text-sm font-medium text-slate-100 backdrop-blur-sm transition-all duration-300 hover:border-white/40 hover:bg-white/20 hover:shadow-lg disabled:opacity-50"
+                  disabled={joiningRoomId === room.id}
                 >
-                  Join Room
+                  {joiningRoomId === room.id ? 'Joining...' : 'Join Room'}
                 </button>
               </div>
             </motion.article>

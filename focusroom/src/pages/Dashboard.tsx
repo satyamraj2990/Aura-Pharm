@@ -12,9 +12,11 @@ import {
   Video,
 } from 'lucide-react'
 import { Link } from 'react-router-dom'
+import { useState } from 'react'
 
 import { useAuth } from '../context/AuthContext'
 import { Sidebar } from '../components/Sidebar'
+import { DashboardSkeleton } from '../components/ui/Skeleton'
 
 const quickActions = [
   {
@@ -78,26 +80,40 @@ const quickActions = [
 export function DashboardPage() {
   const { user } = useAuth()
 
+  // Simulate loading state for demo - remove in production
+  const [isLoading] = useState(false)
+
+  if (isLoading) {
+    return (
+      <div className="min-h-screen w-full bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900 text-slate-100">
+        <Sidebar />
+        <main className="ml-72 p-6">
+          <DashboardSkeleton />
+        </main>
+      </div>
+    )
+  }
+
   return (
-    <div className="min-h-screen w-full bg-[#020b1f] text-slate-100">
+    <div className="min-h-screen w-full bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900 text-slate-100">
       <Sidebar />
 
       <main className="ml-72 p-6">
-        <header className="mb-5 flex items-center justify-between rounded-2xl border border-cyan-300/15 bg-[#081833] px-5 py-4">
+        <header className="mb-5 flex items-center justify-between rounded-2xl border border-slate-700/50 bg-slate-800/30 backdrop-blur-xl px-5 py-4 shadow-lg">
           <div>
             <h1 className="font-display text-2xl font-semibold">Dashboard</h1>
             <p className="text-sm text-slate-300">Welcome back, Satyam • {user?.email ?? 'satyam@focusroom.app'}</p>
           </div>
           <button
             type="button"
-            className="inline-flex h-10 w-10 items-center justify-center rounded-xl border border-cyan-300/20 bg-white/5 text-slate-200"
+            className="inline-flex h-10 w-10 items-center justify-center rounded-xl border border-slate-700/50 bg-slate-800/30 backdrop-blur-xl text-slate-200 transition-all duration-300 hover:bg-slate-700/50 hover:shadow-lg"
           >
             <Moon className="h-4 w-4" />
           </button>
         </header>
 
-        <section className="rounded-3xl border border-cyan-300/15 bg-[#07152e] p-5">
-          <div className="rounded-2xl border border-cyan-300/15 bg-[#06112a] p-4">
+        <section className="rounded-3xl border border-slate-700/50 bg-slate-800/30 backdrop-blur-xl p-5 shadow-xl">
+          <div className="rounded-2xl border border-slate-700/50 bg-slate-800/30 backdrop-blur-xl p-4 mb-6">
             <h2 className="text-lg font-semibold">Recent Focus Activity</h2>
             <ul className="mt-3 space-y-3 text-sm text-slate-300">
               <li className="flex items-center gap-3">
@@ -122,7 +138,7 @@ export function DashboardPage() {
           </div>
 
           <h2 className="mb-3 mt-5 text-2xl font-semibold">Quick Actions</h2>
-          <div className="grid gap-3 sm:grid-cols-2 xl:grid-cols-4">
+          <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
             {quickActions.map((action, index) => {
               const Icon = action.icon
               const gradients = [
@@ -140,19 +156,22 @@ export function DashboardPage() {
                 <Link
                   key={action.label}
                   to={action.to}
-                  className={`group rounded-2xl bg-gradient-to-br ${gradients[index]} p-4 text-white transition-transform duration-200 hover:-translate-y-1`}
+                  className={`group relative overflow-hidden rounded-2xl bg-gradient-to-br ${gradients[index]} p-5 text-white transition-all duration-300 hover:-translate-y-2 hover:scale-105 hover:shadow-2xl hover:shadow-${gradients[index].split(' ')[0].replace('from-', '')}/25`}
                 >
-                  <div className="mb-4 flex items-start justify-between gap-3">
-                    <div className="inline-flex h-10 w-10 items-center justify-center rounded-xl bg-white/20">
-                      <Icon className="h-5 w-5" />
+                  <div className="absolute inset-0 bg-gradient-to-br from-white/10 to-transparent opacity-0 transition-opacity duration-300 group-hover:opacity-100" />
+                  <div className="relative">
+                    <div className="mb-4 flex items-start justify-between gap-3">
+                      <div className="inline-flex h-10 w-10 items-center justify-center rounded-xl bg-white/20 backdrop-blur-sm">
+                        <Icon className="h-5 w-5" />
+                      </div>
+                      <span className="inline-flex items-center gap-1 rounded-full bg-white/15 px-2 py-1 text-[10px] uppercase tracking-[0.16em] text-white/80 backdrop-blur-sm">
+                        {action.sidebarLabel}
+                        <ArrowUpRight className="h-3 w-3" />
+                      </span>
                     </div>
-                    <span className="inline-flex items-center gap-1 rounded-full bg-white/15 px-2 py-1 text-[10px] uppercase tracking-[0.16em] text-white/80">
-                      {action.sidebarLabel}
-                      <ArrowUpRight className="h-3 w-3" />
-                    </span>
+                    <h3 className="text-lg font-semibold leading-tight">{action.label}</h3>
+                    <p className="mt-1 text-sm text-white/85">{action.description}</p>
                   </div>
-                  <h3 className="text-lg font-semibold leading-tight">{action.label}</h3>
-                  <p className="mt-1 text-sm text-white/85">{action.description}</p>
                 </Link>
               )
             })}

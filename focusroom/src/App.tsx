@@ -12,18 +12,14 @@ import { Navbar } from './components/ui/Navbar'
 import { ParticleField } from './components/ui/ParticleField'
 
 function App() {
-  const [theme, setTheme] = useState<'dark' | 'light'>('dark')
-
-  useEffect(() => {
+  const [theme, setTheme] = useState<'dark' | 'light'>(() => {
     const savedTheme = localStorage.getItem('focusroom-theme')
-    if (savedTheme === 'dark' || savedTheme === 'light') {
-      setTheme(savedTheme)
-    }
-  }, [])
+    return (savedTheme === 'dark' || savedTheme === 'light') ? savedTheme : 'dark'
+  })
 
   useEffect(() => {
-    document.documentElement.classList.toggle('dark', theme === 'dark')
     localStorage.setItem('focusroom-theme', theme)
+    document.documentElement.classList.toggle('dark', theme === 'dark')
   }, [theme])
 
   const toggleTheme = () => {

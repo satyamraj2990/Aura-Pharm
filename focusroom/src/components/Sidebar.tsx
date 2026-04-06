@@ -22,8 +22,8 @@ export function Sidebar() {
   }
 
   return (
-    <aside className="fixed left-0 top-0 z-40 flex h-screen w-64 flex-col border-r border-cyan-300/15 bg-[#08142d] px-4 pb-4 pt-5">
-      <div className="mb-6 rounded-2xl border border-cyan-300/15 bg-[#0c1c3b] p-3">
+    <aside className="fixed left-0 top-0 z-40 flex h-screen w-64 flex-col border-r border-slate-700/50 bg-slate-900/95 backdrop-blur-xl px-4 pb-4 pt-5 shadow-2xl">
+      <div className="mb-6 rounded-2xl border border-slate-700/50 bg-slate-800/30 backdrop-blur-xl p-3 shadow-lg">
         <h2 className="font-display text-xl font-semibold text-cyan-300">Satyam</h2>
         <p className="text-xs text-slate-300">Premium • Verified</p>
         <div className="mt-3">
@@ -32,7 +32,7 @@ export function Sidebar() {
             <span className="font-semibold text-emerald-300">91%</span>
           </div>
           <div className="h-2 rounded-full bg-slate-700/60">
-            <div className="h-full w-[91%] rounded-full bg-gradient-to-r from-cyan-400 to-emerald-400" />
+            <div className="h-full w-[91%] rounded-full bg-gradient-to-r from-cyan-400 to-emerald-400 shadow-sm" />
           </div>
         </div>
       </div>
@@ -47,20 +47,25 @@ export function Sidebar() {
               end
               className={({ isActive }) =>
                 [
-                  'flex w-full items-center gap-3 rounded-2xl px-3 py-3 text-sm transition-all duration-200',
+                  'group relative flex w-full items-center gap-3 rounded-2xl px-3 py-3 text-sm transition-all duration-300',
                   isActive
-                    ? 'bg-gradient-to-r from-cyan-400 to-emerald-400 text-slate-950 shadow-[0_10px_30px_rgba(34,211,238,0.25)]'
-                    : 'text-slate-300 hover:bg-white/5 hover:text-white',
+                    ? 'bg-gradient-to-r from-cyan-500/20 to-emerald-500/20 text-white shadow-lg shadow-cyan-500/10 border border-cyan-400/30'
+                    : 'text-slate-300 hover:bg-slate-800/50 hover:text-white hover:shadow-md',
                 ].join(' ')
               }
             >
-              <span className="inline-flex h-9 w-9 items-center justify-center rounded-full bg-white/10">
-                <Icon className="h-4 w-4" />
-              </span>
-              <span className="leading-tight">
-                <span className="block font-medium">{item.label}</span>
-                <span className="text-xs opacity-80">{item.subtitle}</span>
-              </span>
+              {({ isActive }) => (
+                <>
+                  <div className={`absolute inset-0 rounded-2xl bg-gradient-to-r from-cyan-500/10 to-emerald-500/10 opacity-0 transition-opacity duration-300 ${isActive ? 'opacity-100' : 'group-hover:opacity-50'}`} />
+                  <span className={`relative inline-flex h-9 w-9 items-center justify-center rounded-full transition-all duration-300 ${isActive ? 'bg-gradient-to-r from-cyan-400 to-emerald-400 text-slate-950 shadow-lg' : 'bg-slate-800/50 group-hover:bg-slate-700/70'}`}>
+                    <Icon className={`h-4 w-4 transition-transform duration-300 ${isActive ? 'scale-110' : 'group-hover:scale-105'}`} />
+                  </span>
+                  <span className="relative leading-tight">
+                    <span className={`block font-medium transition-colors duration-300 ${isActive ? 'text-white' : 'group-hover:text-white'}`}>{item.label}</span>
+                    <span className={`text-xs opacity-80 transition-colors duration-300 ${isActive ? 'text-cyan-100' : 'text-slate-400 group-hover:text-slate-300'}`}>{item.subtitle}</span>
+                  </span>
+                </>
+              )}
             </NavLink>
           )
         })}
@@ -69,7 +74,7 @@ export function Sidebar() {
       <button
         type="button"
         onClick={handleLogout}
-        className="mt-4 inline-flex w-full items-center gap-3 rounded-2xl border border-red-300/25 bg-red-500/10 px-3 py-3 text-sm text-red-100 transition-all duration-200 hover:bg-red-500/20"
+        className="mt-4 inline-flex w-full items-center gap-3 rounded-2xl border border-red-500/30 bg-red-500/10 px-3 py-3 text-sm text-red-100 transition-all duration-300 hover:bg-red-500/20 hover:border-red-400/50 hover:shadow-lg hover:shadow-red-500/10 backdrop-blur-sm"
       >
         <LogOut className="h-4 w-4" />
         Logout

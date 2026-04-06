@@ -1,5 +1,6 @@
 import { Clock3, LogOut } from 'lucide-react'
 import { useEffect, useMemo, useState } from 'react'
+import { motion } from 'framer-motion'
 import { useLocation, useNavigate, useParams } from 'react-router-dom'
 
 import { Sidebar } from '../components/Sidebar'
@@ -90,15 +91,20 @@ export function RoomPage() {
   }
 
   return (
-    <div className="min-h-screen w-full bg-[#020b1f] text-slate-100">
+    <div className="min-h-screen w-full bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900 text-slate-100">
       <Sidebar />
 
       <main className="ml-72 flex min-h-screen items-center justify-center p-6">
-        <section className="w-full max-w-3xl rounded-3xl border border-cyan-300/15 bg-[#081833] p-8 text-center shadow-[0_24px_60px_rgba(0,0,0,0.35)]">
+        <motion.section
+          initial={{ opacity: 0, scale: 0.95 }}
+          animate={{ opacity: 1, scale: 1 }}
+          transition={{ duration: 0.3 }}
+          className="w-full max-w-3xl rounded-3xl border border-slate-700/50 bg-slate-800/30 backdrop-blur-xl p-8 text-center shadow-2xl"
+        >
           <p className="text-sm uppercase tracking-[0.22em] text-cyan-300">Live Session</p>
           <h1 className="mt-3 font-display text-4xl font-semibold">{roomTitle}</h1>
 
-          <div className="mx-auto mt-8 w-full max-w-xl rounded-2xl border border-cyan-300/20 bg-[#06112a] p-8">
+          <div className="mx-auto mt-8 w-full max-w-xl rounded-2xl border border-slate-700/50 bg-slate-800/30 backdrop-blur-xl p-8 shadow-lg">
             <p className="mb-3 inline-flex items-center gap-2 text-sm text-slate-300">
               <Clock3 className="h-4 w-4" />
               Focus Timer
@@ -106,16 +112,18 @@ export function RoomPage() {
             <p className="font-display text-7xl font-bold text-cyan-300">{timerText}</p>
           </div>
 
-          <button
+          <motion.button
             type="button"
             onClick={handleLeaveRoom}
             disabled={submitting}
-            className="mt-8 inline-flex items-center gap-2 rounded-xl border border-red-400/40 bg-red-500/20 px-5 py-2.5 text-sm font-medium text-red-100 transition-all duration-200 hover:bg-red-500/30 disabled:opacity-70"
+            whileHover={{ scale: 1.05 }}
+            whileTap={{ scale: 0.95 }}
+            className="mt-8 inline-flex items-center gap-2 rounded-xl border border-red-400/40 bg-red-500/20 px-5 py-2.5 text-sm font-medium text-red-100 backdrop-blur-sm transition-all duration-300 hover:bg-red-500/30 hover:border-red-400/60 hover:shadow-lg hover:shadow-red-500/20 disabled:opacity-70"
           >
             <LogOut className="h-4 w-4" />
             {submitting ? 'Leaving...' : 'Leave Room'}
-          </button>
-        </section>
+          </motion.button>
+        </motion.section>
       </main>
     </div>
   )

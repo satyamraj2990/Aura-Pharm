@@ -65,7 +65,7 @@ export function AppRouter() {
         />
         <Route
           path="/analytics-leaderboard"
-          element={<SidebarFeaturePage title="Analytics an Leaderboard" description="Track progress trends, focus consistency, and competitive rankings." />}
+          element={<SidebarFeaturePage title="Analytics and Leaderboard" description="Track progress trends, focus consistency, and competitive rankings." />}
         />
         <Route
           path="/ai-assistant"

@@ -46,7 +46,7 @@ const quickActions = [
     to: '/ai-assistant',
   },
   {
-    sidebarLabel: 'Analytics an Leaderboard',
+    sidebarLabel: 'Analytics and Leaderboard',
     label: 'Session Records',
     description: 'View your duration and consistency logs',
     icon: FileText,

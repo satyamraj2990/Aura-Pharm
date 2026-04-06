@@ -22,16 +22,16 @@ export function Sidebar() {
   }
 
   return (
-    <aside className="fixed left-0 top-0 z-40 flex h-screen w-64 flex-col border-r border-cyan-300/15 bg-[#08142d] px-4 pb-4 pt-5">
-      <div className="mb-6 rounded-2xl border border-cyan-300/15 bg-[#0c1c3b] p-3">
+    <aside className="fixed left-0 top-0 z-40 flex h-screen w-64 flex-col border-r border-[var(--border)] bg-[#08142d] px-4 pb-4 pt-5">
+      <div className="mb-6 rounded-2xl border border-[var(--border)] bg-[#0c1c3b] p-3">
         <h2 className="font-display text-xl font-semibold text-cyan-300">Satyam</h2>
-        <p className="text-xs text-slate-300">Premium • Verified</p>
+        <p className="text-xs text-[var(--muted)]">Premium • Verified</p>
         <div className="mt-3">
-          <div className="mb-1 flex items-center justify-between text-xs text-slate-300">
+          <div className="mb-1 flex items-center justify-between text-xs text-[var(--muted)]">
             <span>Health Score</span>
             <span className="font-semibold text-emerald-300">91%</span>
           </div>
-          <div className="h-2 rounded-full bg-slate-700/60">
+          <div className="h-2 rounded-full bg-[var(--border)]">
             <div className="h-full w-[91%] rounded-full bg-gradient-to-r from-cyan-400 to-emerald-400" />
           </div>
         </div>
@@ -50,7 +50,7 @@ export function Sidebar() {
                   'flex w-full items-center gap-3 rounded-2xl px-3 py-3 text-sm transition-all duration-200',
                   isActive
                     ? 'bg-gradient-to-r from-cyan-400 to-emerald-400 text-slate-950 shadow-[0_10px_30px_rgba(34,211,238,0.25)]'
-                    : 'text-slate-300 hover:bg-white/5 hover:text-white',
+                    : 'text-[var(--muted)] hover:bg-white/5 hover:text-white',
                 ].join(' ')
               }
             >

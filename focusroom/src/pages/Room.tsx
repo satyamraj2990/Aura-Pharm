@@ -90,16 +90,16 @@ export function RoomPage() {
   }
 
   return (
-    <div className="min-h-screen w-full bg-[#020b1f] text-slate-100">
+    <div className="min-h-screen w-full bg-[var(--bg)] text-[var(--text)]">
       <Sidebar />
 
       <main className="ml-72 flex min-h-screen items-center justify-center p-6">
-        <section className="w-full max-w-3xl rounded-3xl border border-cyan-300/15 bg-[#081833] p-8 text-center shadow-[0_24px_60px_rgba(0,0,0,0.35)]">
+        <section className="w-full max-w-3xl rounded-3xl border border-[var(--border)] bg-[var(--bg-elev)] p-8 text-center shadow-[0_24px_60px_rgba(0,0,0,0.35)]">
           <p className="text-sm uppercase tracking-[0.22em] text-cyan-300">Live Session</p>
           <h1 className="mt-3 font-display text-4xl font-semibold">{roomTitle}</h1>
 
-          <div className="mx-auto mt-8 w-full max-w-xl rounded-2xl border border-cyan-300/20 bg-[#06112a] p-8">
-            <p className="mb-3 inline-flex items-center gap-2 text-sm text-slate-300">
+          <div className="mx-auto mt-8 w-full max-w-xl rounded-2xl border border-[var(--border)] bg-[var(--bg-elev)] p-8">
+            <p className="mb-3 inline-flex items-center gap-2 text-sm text-[var(--muted)]">
               <Clock3 className="h-4 w-4" />
               Focus Timer
             </p>

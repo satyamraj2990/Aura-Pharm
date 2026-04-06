@@ -12,7 +12,7 @@ import { Navbar } from './components/ui/Navbar'
 import { ParticleField } from './components/ui/ParticleField'
 
 function App() {
-  const [theme, setTheme] = useState<'dark' | 'light'>('dark')
+  const [theme, setTheme] = useState<'dark' | 'light'>('light')
 
   useEffect(() => {
     const savedTheme = localStorage.getItem('focusroom-theme')

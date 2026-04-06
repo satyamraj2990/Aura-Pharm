@@ -79,34 +79,34 @@ export function DashboardPage() {
   const { user } = useAuth()
 
   return (
-    <div className="min-h-screen w-full bg-[#020b1f] text-slate-100">
+    <div className="min-h-screen w-full bg-[var(--bg)] text-[var(--text)]">
       <Sidebar />
 
       <main className="ml-72 p-6">
-        <header className="mb-5 flex items-center justify-between rounded-2xl border border-cyan-300/15 bg-[#081833] px-5 py-4">
+        <header className="mb-5 flex items-center justify-between rounded-2xl border border-[var(--border)] bg-[var(--bg-elev)] px-5 py-4">
           <div>
             <h1 className="font-display text-2xl font-semibold">Dashboard</h1>
-            <p className="text-sm text-slate-300">Welcome back, Satyam • {user?.email ?? 'satyam@focusroom.app'}</p>
+            <p className="text-sm text-[var(--muted)]">Welcome back, Satyam • {user?.email ?? 'satyam@focusroom.app'}</p>
           </div>
           <button
             type="button"
-            className="inline-flex h-10 w-10 items-center justify-center rounded-xl border border-cyan-300/20 bg-white/5 text-slate-200"
+            className="inline-flex h-10 w-10 items-center justify-center rounded-xl border border-[var(--border)] bg-white/5 text-[var(--text)]"
           >
             <Moon className="h-4 w-4" />
           </button>
         </header>
 
-        <section className="rounded-3xl border border-cyan-300/15 bg-[#07152e] p-5">
-          <div className="rounded-2xl border border-cyan-300/15 bg-[#06112a] p-4">
+        <section className="rounded-3xl border border-[var(--border)] bg-[var(--card)] p-5">
+          <div className="rounded-2xl border border-[var(--border)] bg-[var(--bg-elev)] p-4">
             <h2 className="text-lg font-semibold">Recent Focus Activity</h2>
-            <ul className="mt-3 space-y-3 text-sm text-slate-300">
+            <ul className="mt-3 space-y-3 text-sm text-[var(--muted)]">
               <li className="flex items-center gap-3">
                 <span className="inline-flex h-8 w-8 items-center justify-center rounded-lg bg-pink-500/20 text-pink-300">
                   <Camera className="h-4 w-4" />
                 </span>
                 <div>
-                  <p className="font-medium text-slate-100">Completed Neural Recall deck</p>
-                  <p className="text-xs text-slate-400">2 days ago • 24 flashcards mastered</p>
+                  <p className="font-medium text-[var(--text)]">Completed Neural Recall deck</p>
+                  <p className="text-xs text-[var(--muted)]">2 days ago • 24 flashcards mastered</p>
                 </div>
               </li>
               <li className="flex items-center gap-3">
@@ -114,8 +114,8 @@ export function DashboardPage() {
                   <Bell className="h-4 w-4" />
                 </span>
                 <div>
-                  <p className="font-medium text-slate-100">Smart room checkpoint alert</p>
-                  <p className="text-xs text-slate-400">3 days ago • Maintained 42-minute focus run</p>
+                  <p className="font-medium text-[var(--text)]">Smart room checkpoint alert</p>
+                  <p className="text-xs text-[var(--muted)]">3 days ago • Maintained 42-minute focus run</p>
                 </div>
               </li>
             </ul>

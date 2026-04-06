@@ -3,6 +3,7 @@ import { Navigate, Route, Routes } from 'react-router-dom'
 import App from './App'
 import { ProtectedRoute } from './components/ProtectedRoute'
 import { useAuth } from './context/AuthContext'
+import { ArcadeModePage } from './pages/ArcadeMode'
 import { DashboardPage } from './pages/Dashboard'
 import { FocusRoomsPage } from './pages/FocusRooms'
 import { LoginPage } from './pages/Login'
@@ -10,6 +11,8 @@ import { RecordsPage } from './pages/Records'
 import { RoomPage } from './pages/Room'
 import { SidebarFeaturePage } from './pages/SidebarFeaturePage'
 import { SignupPage } from './pages/Signup'
+import { SudokuGame } from './pages/games/SudokuGame'
+import { QueensGame } from './pages/games/QueensGame'
 
 function PublicOnlyRoute({ children }: { children: JSX.Element }) {
   const { user, loading } = useAuth()
@@ -73,7 +76,15 @@ export function AppRouter() {
         />
         <Route
           path="/arcade-mode"
-          element={<SidebarFeaturePage title="Arcade Mode" description="Turn deep work into challenge-based sprints with score multipliers." />}
+          element={<ArcadeModePage />}
+        />
+        <Route
+          path="/arcade-mode/sudoku"
+          element={<SudokuGame />}
+        />
+        <Route
+          path="/arcade-mode/queens"
+          element={<QueensGame />}
         />
         <Route path="/records" element={<RecordsPage />} />
       </Route>

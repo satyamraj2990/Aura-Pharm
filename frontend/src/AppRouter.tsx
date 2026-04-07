@@ -13,6 +13,7 @@ import { RecordsPage } from './pages/Records'
 import { RoomPage } from './pages/Room'
 import { AnalyticsLeaderboardPage } from './pages/AnalyticsLeaderboard'
 import { StudyPlannerPage } from './pages/StudyPlanner'
+import { SmartFocusModePage } from './pages/SmartFocusMode'
 import { SignupPage } from './pages/Signup'
 
 function PublicOnlyRoute({ children }: { children: JSX.Element }) {
@@ -58,6 +59,7 @@ export function AppRouter() {
         <Route path="/dashboard" element={<DashboardPage />} />
         <Route path="/study-planner" element={<StudyPlannerPage />} />
         <Route path="/smart-room" element={<FocusRoomsPage />} />
+        <Route path="/smart-room/:id/focus" element={<SmartFocusModePage />} />
         <Route path="/focus-rooms" element={<FocusRoomsPage />} />
         <Route path="/room/:id" element={<RoomPage />} />
         <Route path="/nearby-educators" element={<NearbyEducatorsPage />} />

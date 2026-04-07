@@ -108,17 +108,17 @@ export function StudyPlannerPage() {
       <main className="relative min-h-screen overflow-hidden p-4 sm:p-6 lg:ml-72 lg:p-8">
         <div className="pointer-events-none absolute inset-0 mesh-bg" />
 
-        <div className="relative mx-auto max-w-6xl space-y-5">
+        <div className="relative mx-auto max-w-6xl space-y-8">
           <header className="rounded-3xl border border-[var(--border)] bg-[var(--card)] p-5 backdrop-blur-xl">
             <div className="flex flex-wrap items-center justify-between gap-3">
               <div>
                 <p className="text-xs uppercase tracking-[0.16em] text-[var(--muted)]">Welcome back, {activeUser.name}</p>
-                <h1 className="mt-1 text-3xl font-semibold">Study Planner</h1>
+                <h1 className="mt-1 text-[clamp(1.75rem,2.4vw,2rem)] tracking-[0.02em]">Study Planner</h1>
               </div>
               <button
                 type="button"
                 onClick={handleCreate}
-                className="inline-flex items-center gap-2 rounded-2xl border border-[var(--border)] bg-[var(--text)] px-4 py-2 text-sm font-medium text-[var(--bg)] hover:opacity-90"
+                className="inline-flex items-center gap-2 rounded-xl border border-[var(--border)] bg-[var(--bg-elev)] px-4 py-2 text-sm font-medium text-[var(--text)] transition-all duration-200 hover:border-[var(--text)]/40 hover:brightness-105"
               >
                 <Plus className="h-4 w-4" />
                 Add Session
@@ -171,18 +171,19 @@ export function StudyPlannerPage() {
             progressPercent={progress.progressPercent}
           />
 
-          <section className="rounded-3xl border border-[var(--border)] bg-[var(--card)] p-5">
-            <div className="mb-4 flex items-center gap-2">
+          <section className="space-y-4">
+            <div className="flex items-center gap-2">
               <CalendarCheck2 className="h-4 w-4 text-[var(--muted)]" />
-              <h2 className="text-xl font-semibold">Today&apos;s Tasks</h2>
+              <h2 className="text-[clamp(1.25rem,1.8vw,1.5rem)] tracking-[0.015em]">Today&apos;s Tasks</h2>
             </div>
+            <div className="h-px w-full bg-[var(--border)]" />
 
             {todayTasks.length === 0 ? (
               <div className="rounded-2xl border border-dashed border-[var(--border)] bg-[var(--bg-elev)] p-6 text-center text-sm text-[var(--muted)]">
                 No tasks for today. Add a new study session to get started.
               </div>
             ) : (
-              <div className="grid gap-3 md:grid-cols-2">
+              <div className="space-y-2.5">
                 {todayTasks.map((task) => (
                   <TaskCard
                     key={task.id}
@@ -204,8 +205,9 @@ export function StudyPlannerPage() {
             )}
           </section>
 
-          <section className="rounded-3xl border border-[var(--border)] bg-[var(--card)] p-5">
-            <h2 className="mb-4 text-xl font-semibold">Upcoming Tasks</h2>
+          <section className="space-y-5 pt-2">
+            <h2 className="text-[clamp(1.25rem,1.8vw,1.5rem)] tracking-[0.015em]">Upcoming Tasks</h2>
+            <div className="h-px w-full bg-[var(--border)]" />
 
             {upcomingTasks.length === 0 ? (
               <div className="rounded-2xl border border-dashed border-[var(--border)] bg-[var(--bg-elev)] p-6 text-center text-sm text-[var(--muted)]">
@@ -214,9 +216,10 @@ export function StudyPlannerPage() {
             ) : (
               <div className="space-y-5">
                 {Object.entries(groupedUpcomingTasks).map(([subject, subjectTasks]) => (
-                  <div key={subject}>
-                    <h3 className="mb-2 text-sm font-semibold uppercase tracking-[0.08em] text-[var(--muted)]">{subject}</h3>
-                    <div className="grid gap-3 md:grid-cols-2">
+                  <div key={subject} className="space-y-2">
+                    <h3 className="text-sm uppercase tracking-[0.08em] text-[var(--muted)]">{subject}</h3>
+                    <div className="h-px w-full bg-[var(--border)]" />
+                    <div className="space-y-2.5">
                       {subjectTasks.map((task) => (
                         <TaskCard
                           key={task.id}

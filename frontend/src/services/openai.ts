@@ -4,6 +4,19 @@ export type ChatMessage = {
 }
 
 const ASSISTANT_TIMEOUT_MS = 20000
+const configuredApiBaseUrl = (import.meta.env.VITE_ASSISTANT_API_BASE_URL as string | undefined)?.trim()
+const normalizedApiBaseUrl = configuredApiBaseUrl
+  ? configuredApiBaseUrl.replace(/\/$/, '')
+  : ''
+const browserHost = typeof window !== 'undefined' ? window.location.hostname : ''
+const isRunningLocally = browserHost === 'localhost' || browserHost === '127.0.0.1'
+const pointsToLocalhost = /(^https?:\/\/)?(localhost|127\.0\.0\.1)(:\d+)?$/i.test(normalizedApiBaseUrl)
+const effectiveApiBaseUrl = (!isRunningLocally && pointsToLocalhost)
+  ? ''
+  : normalizedApiBaseUrl
+const assistantEndpoint = effectiveApiBaseUrl
+  ? `${effectiveApiBaseUrl}/api/ai/chat`
+  : '/api/ai/chat'
 
 const parseAssistantError = (status: number, message: string) => {
   if (status === 429 || /quota|rate limit|insufficient_quota|resource has been exhausted/i.test(message)) {
@@ -28,7 +41,7 @@ export const sendOpenAIMessage = async (messages: ChatMessage[]) => {
   const timeoutHandle = setTimeout(() => controller.abort(), ASSISTANT_TIMEOUT_MS)
 
   try {
-    response = await fetch('/api/ai/chat', {
+    response = await fetch(assistantEndpoint, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -40,7 +53,10 @@ export const sendOpenAIMessage = async (messages: ChatMessage[]) => {
     if (error instanceof DOMException && error.name === 'AbortError') {
       throw new Error('Assistant request timed out. Please try again.')
     }
-    throw new Error('Assistant backend is not reachable. Start backend server (port 8787) and retry.')
+    const endpointHint = effectiveApiBaseUrl
+      ? `Check backend URL: ${effectiveApiBaseUrl}`
+      : 'If deployed, set VITE_ASSISTANT_API_BASE_URL to your deployed backend origin. If local, run backend on localhost:8787.'
+    throw new Error(`Assistant backend is not reachable (${assistantEndpoint}). ${endpointHint}`)
   } finally {
     clearTimeout(timeoutHandle)
   }

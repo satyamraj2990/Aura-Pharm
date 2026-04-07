@@ -280,7 +280,7 @@
 
       try {
         // Call backend API
-        const response = await fetch('http://localhost:8787/chat', {
+        const response = await fetch('/chat', {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
@@ -305,7 +305,7 @@
           chatBox.removeChild(typingElement)
         }
 
-        const errorMsg = `⚠️ Connection error: ${error.message}. Make sure the backend is running on http://localhost:8787`
+        const errorMsg = `⚠️ Connection error: ${error.message}. Make sure the backend is reachable from this page and try again.`
         addMessage(errorMsg, 'bot')
       } finally {
         // Re-enable input

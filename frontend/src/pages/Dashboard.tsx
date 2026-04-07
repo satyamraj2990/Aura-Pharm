@@ -185,7 +185,12 @@ export function DashboardPage() {
 
             {!roomsLoading && rooms.length > 0 ? (
               <ul className="mt-3 space-y-2">
-                {rooms.slice(0, 4).map((room) => (
+                {rooms.slice(0, 4).map((room) => {
+                  const joinPath = room.allowedSites?.length
+                    ? `/smart-room/${room.id}/focus`
+                    : `/room/${room.id}`
+
+                  return (
                   <li key={room.id} className="rounded-xl border border-[var(--border)] bg-[var(--card)] px-3 py-2">
                     <div className="flex items-center justify-between gap-3">
                       <div>
@@ -193,14 +198,15 @@ export function DashboardPage() {
                         <p className="text-xs text-[var(--muted)]">{room.topic} • {room.duration} min</p>
                       </div>
                       <Link
-                        to={`/room/${room.id}`}
+                        to={joinPath}
                         className="rounded-lg border border-[var(--border)] bg-[var(--bg-elev)] px-3 py-1 text-xs text-[var(--text)] hover:opacity-90"
                       >
                         Join
                       </Link>
                     </div>
                   </li>
-                ))}
+                  )
+                })}
               </ul>
             ) : null}
           </div>

@@ -6,9 +6,9 @@ type ProgressBarProps = {
 
 export function ProgressBar({ completedDuration, dailyGoal, progressPercent }: ProgressBarProps) {
   return (
-    <div className="rounded-2xl border border-[var(--border)] bg-[var(--card)] p-4">
+    <div className="space-y-3 rounded-2xl border border-[var(--border)] bg-[var(--bg-elev)]/80 p-4">
       <div className="mb-2 flex items-center justify-between text-sm">
-        <span className="font-medium text-[var(--text)]">Daily Progress</span>
+        <span className="font-semibold tracking-[0.01em] text-[var(--text)]">Daily Progress</span>
         <span className="text-[var(--accent)]">{completedDuration} / {dailyGoal} min</span>
       </div>
       <div className="h-3 overflow-hidden rounded-full bg-[var(--border)]">

@@ -9,7 +9,7 @@ import { logout } from '../services/auth'
 const navItems = [
   { label: 'Dashboard', subtitle: 'Overview', icon: Gauge, to: '/dashboard' },
   { label: 'Study Planner', subtitle: 'Plan sessions', icon: CalendarCheck2, to: '/study-planner' },
-  { label: 'Smart Room', subtitle: 'Join sessions', icon: DoorOpen, to: '/smart-room' },
+  { label: 'Smart Room', subtitle: 'Focus sessions', icon: DoorOpen, to: '/smart-room' },
   { label: 'Nearby Educators', subtitle: 'Find mentors', icon: GraduationCap, to: '/nearby-educators' },
   { label: 'Analytics & Leaderboard', subtitle: 'Progress + ranks', icon: Trophy, to: '/analytics-leaderboard' },
   { label: 'Ai Assistant', subtitle: 'Study copilot', icon: Bot, to: '/ai-assistant' },

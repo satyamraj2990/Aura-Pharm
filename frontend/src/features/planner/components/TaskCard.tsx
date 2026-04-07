@@ -45,44 +45,45 @@ export function TaskCard({
     <article
       ref={taskRef}
       className={[
-        'rounded-2xl border p-4 shadow-[var(--card-shadow)] transition-all',
+        'w-full rounded-xl border px-4 py-3 transition-all duration-200',
         isActive
-          ? 'border-[var(--text)] bg-[var(--bg-elev)] ring-1 ring-[var(--text)]/20'
-          : 'border-[var(--border)] bg-[var(--card)]',
+          ? 'border-[var(--text)] bg-[var(--bg-elev)]'
+          : 'border-[var(--border)] bg-[var(--bg-elev)] hover:border-[var(--text)]/35 hover:brightness-[1.02]',
       ].join(' ')}
     >
-      <div className="flex flex-wrap items-start justify-between gap-3">
-        <div>
-          <h3 className="text-lg font-semibold text-[var(--text)]">{task.title}</h3>
-          <p className="text-sm text-[var(--muted)]">{task.subject}</p>
+      <div className="grid gap-3 lg:grid-cols-[minmax(0,1.4fr)_minmax(0,1fr)_auto] lg:items-center">
+        <div className="min-w-0">
+          <h3 className="truncate text-base font-semibold text-[var(--text)]">{task.title}</h3>
+          <p className="truncate text-sm font-normal text-[var(--muted)]">{task.subject}</p>
         </div>
-        <div className="flex gap-2 text-[11px] uppercase tracking-[0.08em]">
-          <span className={`rounded-full border px-2 py-1 ${priorityBadge[task.priority]}`}>
+
+        <div className="flex flex-wrap items-center gap-2 text-xs text-[var(--muted)]">
+          <span className="inline-flex items-center gap-1.5 rounded-lg border border-[var(--border)] bg-[var(--card)] px-2.5 py-1.5">
+            <CalendarDays className="h-3.5 w-3.5" />
+            {task.date} • {task.startTime}
+          </span>
+          <span className="inline-flex items-center rounded-lg border border-[var(--border)] bg-[var(--card)] px-2.5 py-1.5">
+            {task.duration} min
+          </span>
+          <span className={`inline-flex items-center rounded-lg border px-2.5 py-1.5 uppercase tracking-[0.08em] ${priorityBadge[task.priority]}`}>
             {task.priority}
           </span>
-          <span className={`rounded-full border px-2 py-1 ${statusBadge[task.status]}`}>
+          <span className={`inline-flex items-center rounded-lg border px-2.5 py-1.5 uppercase tracking-[0.08em] ${statusBadge[task.status]}`}>
             {task.status}
           </span>
         </div>
+
+        <div className="flex items-center justify-end gap-2">
+          <TimerDisplay remainingSeconds={remainingSeconds} isRunning={task.isRunning} />
+        </div>
       </div>
 
-      <div className="mt-4 flex flex-wrap items-center gap-3 text-xs text-[var(--muted)]">
-        <span className="inline-flex items-center gap-1.5 rounded-xl border border-[var(--border)] bg-[var(--bg-elev)] px-2.5 py-1.5">
-          <CalendarDays className="h-3.5 w-3.5" />
-          {task.date} • {task.startTime}
-        </span>
-        <span className="inline-flex items-center gap-1.5 rounded-xl border border-[var(--border)] bg-[var(--bg-elev)] px-2.5 py-1.5">
-          Duration: {task.duration} min
-        </span>
-        <TimerDisplay remainingSeconds={remainingSeconds} isRunning={task.isRunning} />
-      </div>
-
-      <div className="mt-4 flex flex-wrap gap-2">
+      <div className="mt-3 flex flex-wrap gap-2 border-t border-[var(--border)] pt-3">
         <button
           type="button"
           onClick={() => onEdit(task)}
           disabled={task.isRunning}
-          className="inline-flex items-center gap-1 rounded-xl border border-[var(--border)] bg-[var(--bg-elev)] px-3 py-1.5 text-xs font-medium text-[var(--text)] enabled:hover:opacity-90 disabled:cursor-not-allowed disabled:opacity-50"
+          className="inline-flex items-center gap-1 rounded-lg border border-[var(--border)] bg-[var(--card)] px-3 py-1.5 text-xs font-medium text-[var(--text)] enabled:hover:opacity-90 disabled:cursor-not-allowed disabled:opacity-50"
         >
           <Pencil className="h-3.5 w-3.5" />
           Edit
@@ -90,7 +91,7 @@ export function TaskCard({
         <button
           type="button"
           onClick={() => onDelete(task.id)}
-          className="inline-flex items-center gap-1 rounded-xl border border-[var(--border)] bg-[var(--bg-elev)] px-3 py-1.5 text-xs font-medium text-[var(--muted)] hover:opacity-90"
+          className="inline-flex items-center gap-1 rounded-lg border border-[var(--border)] bg-[var(--card)] px-3 py-1.5 text-xs font-medium text-[var(--muted)] hover:opacity-90"
         >
           <Trash2 className="h-3.5 w-3.5" />
           Delete
@@ -99,7 +100,7 @@ export function TaskCard({
           <button
             type="button"
             onClick={() => onPause(task.id)}
-            className="inline-flex items-center gap-1 rounded-xl border border-[var(--border)] bg-[var(--bg-elev)] px-3 py-1.5 text-xs font-medium text-[var(--text)] hover:opacity-90"
+            className="inline-flex items-center gap-1 rounded-lg border border-[var(--border)] bg-[var(--card)] px-3 py-1.5 text-xs font-medium text-[var(--text)] hover:opacity-90"
           >
             <Pause className="h-3.5 w-3.5" />
             Pause
@@ -108,7 +109,7 @@ export function TaskCard({
           <button
             type="button"
             onClick={() => onResume(task.id)}
-            className="inline-flex items-center gap-1 rounded-xl border border-[var(--border)] bg-[var(--bg-elev)] px-3 py-1.5 text-xs font-medium text-[var(--text)] hover:opacity-90"
+            className="inline-flex items-center gap-1 rounded-lg border border-[var(--border)] bg-[var(--card)] px-3 py-1.5 text-xs font-medium text-[var(--text)] hover:opacity-90"
           >
             <RotateCcw className="h-3.5 w-3.5" />
             Resume
@@ -118,7 +119,7 @@ export function TaskCard({
             type="button"
             onClick={() => onStart(task.id)}
             disabled={task.status === 'completed'}
-            className="inline-flex items-center gap-1 rounded-xl border border-[var(--border)] bg-[var(--text)] px-3 py-1.5 text-xs font-medium text-[var(--bg)] enabled:hover:opacity-90 disabled:cursor-not-allowed disabled:opacity-50"
+            className="inline-flex items-center gap-1 rounded-lg border border-[var(--border)] bg-[var(--text)] px-3 py-1.5 text-xs font-medium text-[var(--bg)] enabled:hover:opacity-90 disabled:cursor-not-allowed disabled:opacity-50"
           >
             <Play className="h-3.5 w-3.5" />
             Start
@@ -127,7 +128,7 @@ export function TaskCard({
         <button
           type="button"
           onClick={() => onToggleStatus(task.id)}
-          className="inline-flex items-center gap-1 rounded-xl border border-[var(--border)] bg-[var(--bg-elev)] px-3 py-1.5 text-xs font-medium text-[var(--text)] hover:opacity-90"
+          className="inline-flex items-center gap-1 rounded-lg border border-[var(--border)] bg-[var(--card)] px-3 py-1.5 text-xs font-medium text-[var(--text)] hover:opacity-90"
         >
           <CheckCircle2 className="h-3.5 w-3.5" />
           {task.status === 'completed' ? 'Mark Pending' : 'Complete'}

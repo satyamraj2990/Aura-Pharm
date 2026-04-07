@@ -88,6 +88,28 @@ body {
     color 300ms ease;
 }
 
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-weight: 650;
+  letter-spacing: 0.015em;
+  line-height: 1.2;
+}
+
+p,
+label,
+li,
+span,
+input,
+select,
+textarea,
+button {
+  line-height: 1.5;
+}
+
 #root {
   min-height: 100vh;
 }

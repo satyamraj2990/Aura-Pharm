@@ -15,7 +15,6 @@ import {
   Timestamp,
   type DocumentData,
   type Unsubscribe,
-  where,
 } from 'firebase/firestore'
 import { getDownloadURL, ref, uploadBytes } from 'firebase/storage'
 
@@ -27,8 +26,10 @@ export type Room = {
   topic: string
   createdBy: string
   isLive: boolean
+  isActive?: boolean
   startTime: Timestamp | null
   duration: number
+  allowedSites?: string[]
 }
 
 export type RoomMember = {
@@ -79,6 +80,9 @@ export type CreateRoomInput = {
 const mapRoom = (id: string, data: DocumentData): Room => {
   const fallbackName = data.name ?? data.title ?? 'Untitled Room'
   const fallbackTopic = data.topic ?? data.description ?? 'General Focus'
+  const allowedSites = Array.isArray(data.allowedSites)
+    ? data.allowedSites.map((site) => String(site).trim()).filter(Boolean)
+    : undefined
 
   return {
     id,
@@ -86,8 +90,10 @@ const mapRoom = (id: string, data: DocumentData): Room => {
     topic: String(fallbackTopic),
     createdBy: String(data.createdBy ?? 'unknown'),
     isLive: Boolean(data.isLive ?? true),
+    isActive: Boolean(data.isActive ?? false),
     startTime: (data.startTime as Timestamp | undefined) ?? null,
     duration: Number(data.duration ?? 45),
+    allowedSites,
   }
 }
 
@@ -237,9 +243,11 @@ export const createRoom = async (input: CreateRoomInput, user: User | null): Pro
 export const getRooms = async (): Promise<Room[]> => {
   try {
     const roomsRef = collection(db, 'rooms')
-    const roomsQuery = query(roomsRef, where('isLive', '==', true))
+    const roomsQuery = query(roomsRef)
     const snapshot = await getDocs(roomsQuery)
-    return snapshot.docs.map((roomDoc) => mapRoom(roomDoc.id, roomDoc.data()))
+    return snapshot.docs
+      .map((roomDoc) => mapRoom(roomDoc.id, roomDoc.data()))
+      .filter((room) => room.isLive || room.isActive || Boolean(room.allowedSites?.length))
   } catch (error) {
     return handleFirestoreError(error, 'Unable to load live rooms.')
   }
@@ -357,12 +365,16 @@ export const listenLiveRooms = (
   onError?: (message: string) => void,
 ): Unsubscribe => {
   const roomsRef = collection(db, 'rooms')
-  const roomsQuery = query(roomsRef, where('isLive', '==', true))
+  const roomsQuery = query(roomsRef)
 
   return onSnapshot(
     roomsQuery,
     (snapshot) => {
-      onData(snapshot.docs.map((roomDoc) => mapRoom(roomDoc.id, roomDoc.data())))
+      onData(
+        snapshot.docs
+          .map((roomDoc) => mapRoom(roomDoc.id, roomDoc.data()))
+          .filter((room) => room.isLive || room.isActive || Boolean(room.allowedSites?.length)),
+      )
     },
     (error) => {
       if (onError) {
